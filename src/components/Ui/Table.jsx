@@ -13,14 +13,21 @@ function Table() {
     }
   
     useEffect(() => {
-        if (search) {
-            const filtered = data?.users.filter(user => user.firstName.toLowerCase().includes(search.toLowerCase()) || user.email.toLowerCase().includes(search.toLowerCase()) || user.company.name.toLowerCase().includes(search.toLowerCase()))   
-            setFilteredData(filtered)
-        } else {
-            setFilteredData(data?.users)
-        }
-    }, [search, data])
+        const delayDebounceFn = setTimeout(() => {
+            if (search) {
+                const filtered = data?.users.filter(user =>
+                    user.firstName.toLowerCase().includes(search.toLowerCase()) ||
+                    user.email.toLowerCase().includes(search.toLowerCase()) ||
+                    user.company.name.toLowerCase().includes(search.toLowerCase())
+                )
+                setFilteredData(filtered)
+            } else {
+                setFilteredData(data?.users)
+            }
+        }, 300)
 
+        return () => clearTimeout(delayDebounceFn)
+    }, [search, data])
     if (isLoading) return <div className='center'>Loading...</div>
     if (error) return <div className='center'>Error: {error.message}</div>
     if (!data) return <div className='center'>No data found</div>

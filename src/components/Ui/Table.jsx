@@ -63,7 +63,7 @@ function Table() {
         </div>
     </div>
     <p className='see-all' onClick={handleReset}>See all</p>
-    <div className='center-absolute'>{[...Array(6).keys()].map((n)=><span key={n} onClick={()=>setPage(n+2)}>{n}</span>)}</div>
+    <div className='center-absolute'>{[...Array(Math.ceil(filteredData?.length || 0) / 5).keys()].map((n)=><span key={n} onClick={()=>setPage(n+2)}>{n}</span>)}</div>
     { !data.users.length && !filteredData.length ? <p className='center'>No user Found</p> : <div>
         <table className="table">
             <thead>
